@@ -72,6 +72,9 @@ function cleanAll() {
         docker rmi $IID
     fi
 }
+
+function buildWithCache() {
+    time docker build -t $IMAGENAME --label "$DOCKERLABEL" --no-cache --build-arg "http_proxy=`$0 info`" $WORKINGDIR
 }
 
 if [[ $# -ne 1 ]] ; then
@@ -103,6 +106,9 @@ case "$COMMAND" in
         ;;
     "clean-all" )
         cleanAll
+        ;;
+    "build-with-cache" )
+        buildWithCache
         ;;
     *)
         echo "Invalid Argument: $*"
