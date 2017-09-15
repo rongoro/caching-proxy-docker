@@ -86,3 +86,8 @@ X-Proxied-Response: True
 ```
 Note that the proxy adds the X-Proxied-Response header to the response. This is
 basically what `./caching-proxy-docker run-test` does as well.
+
+## Special Thanks
+
+I borrowed the nginx configs from @regadas on github:
+  https://gist.github.com/regadas/7381125
