@@ -25,8 +25,12 @@ function status() {
 
 function info() {
     CID=`getContainer`
+    if [[ "$CID" == "" ]] ; then
+        echo "Not running."
+        return 0
+    fi
     PROXYIP=`docker inspect --format '{{ .NetworkSettings.IPAddress }}' ${CID}`
-    echo "$PROXYIP:$PORT"
+    echo "http://$PROXYIP:$PORT"
 }
 
 function start() {
