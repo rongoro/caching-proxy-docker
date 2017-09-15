@@ -1,4 +1,4 @@
-# caching_proxy
+# caching-proxy-docker
 
 Small tool for building and running a caching HTTP proxy under docker
 
@@ -36,7 +36,7 @@ This all could be done better or just differently, but this was fast and easy.
 The hashes and stuff may differ for you.
 
 ```
-$ ./caching_proxy start
+$ ./caching-proxy-docker start
 Sending build context to Docker daemon 166.4 kB
 Step 1 : FROM ubuntu:rolling
  ---> bde41be8de8c
@@ -56,10 +56,10 @@ Removing intermediate container dc3db2f93979
 Successfully built a96bb7eff047
 http://172.17.0.2:8080
 
-$ ./caching_proxy info
+$ ./caching-proxy-docker info
 http://172.17.0.2:8080
 
-$ ./caching_proxy stop
+$ ./caching-proxy-docker stop
 fce126dd29f6
 ```
 
@@ -68,20 +68,21 @@ fce126dd29f6
 
 One test would be to do:
 ```
-$ ./caching_proxy clean-all
-$ time ./caching_proxy rebuild
+$ ./caching-proxy-docker clean-all
+$ time ./caching-proxy-docker rebuild
 (note the time)
-$ ./caching_proxy start
-$ time ./caching_proxy build-with-cache
+$ ./caching-proxy-docker start
+$ time ./caching-proxy-docker build-with-cache
 (note that the time is faster than the previous time)
 
 or:
 
-$ ./caching_proxy start
-$ http_proxy=`./caching_proxy info` curl -I http://example.com
+$ ./caching-proxy-docker start
+$ http_proxy=`./caching-proxy-docker info` curl -I http://example.com
 HTTP/1.1 200 OK
 Server: nginx/1.10.3 (Ubuntu)
 ... [ REDATED FOR BREVITY ]
 X-Proxied-Response: True
 ```
-Note that the proxy adds the X-Proxied-Response header to the response. This is basically what `./caching_proxy run-test` does as well.
+Note that the proxy adds the X-Proxied-Response header to the response. This is
+basically what `./caching-proxy-docker run-test` does as well.

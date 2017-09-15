@@ -1,10 +1,12 @@
 #!/bin/bash
 
-IMAGENAME="caching_proxy_docker"
+JOBTYPE="caching_http_proxy"
+
+IMAGENAME=$JOBTYPE
 
 HASIMAGE=`docker images | grep $IMAGENAME`
-DOCKERLABEL="localhost.job_type=caching_http_proxy"
-PORT=8080
+DOCKERLABEL="localhost.job_type=$JOBTYPE"
+PORT=8080  # This doesn't affect the nginx config so you can't just cahnge it
 
 TESTURL="http://example.com"
 
