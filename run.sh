@@ -97,6 +97,7 @@ case "$COMMAND" in
         ;;
     "stop" )
         stop
+        exit $?
         ;;
     "status" )
         status
