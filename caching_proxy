@@ -6,11 +6,13 @@ HASIMAGE=`docker images | grep $IMAGENAME`
 DOCKERLABEL="localhost.job_type=caching_http_proxy"
 PORT=8080
 
+TESTURL="http://example.com"
+
 WORKINGDIR=$(dirname $(realpath $0))
 
 function usage() {
     echo "Manage an cahing HTTP proxy and http_proxy environment variable"
-    echo "$0 (start|stop|status|info|rebuild|clean-all|build-with-cache)"
+    echo "$0 (start|stop|status|info|rebuild|clean-all|build-with-cache|run-test)"
     echo
     column -t -s "|" <<EOF
     start | Start the cache
@@ -20,8 +22,18 @@ function usage() {
     rebuild | Rebuild the docker image
     clean-all | Remove the docker images related to this tool
     build-with-cache | Build the docker image using a cache provided by the tool (mostly for testing)
+    run-test | Start a cache and make sure it can handle requests
 EOF
+}
 
+function runTest() {
+  start
+  RESULT=$(http_proxy=`info` curl -s -I $TESTURL | grep "X-Proxied-Response")
+  if [[ $RESULT == "" ]] ; then
+    echo "Test Failed."
+  else
+    echo "Test Succeeded."
+  fi
 }
 
 function rebuild() {
@@ -121,6 +133,9 @@ case "$COMMAND" in
         ;;
     "build-with-cache" )
         buildWithCache
+        ;;
+    "run-test" )
+        runTest
         ;;
     *)
         echo "Invalid Argument: $*"
