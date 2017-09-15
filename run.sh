@@ -64,6 +64,14 @@ function stop() {
     fi
     docker rm -f $CID
 }
+
+function cleanAll() {
+    stop
+    IID=`getImage`
+    if [[ "$IID" != "" ]] ; then
+        docker rmi $IID
+    fi
+}
 }
 
 if [[ $# -ne 1 ]] ; then
@@ -92,6 +100,9 @@ case "$COMMAND" in
         ;;
     "info" )
         info
+        ;;
+    "clean-all" )
+        cleanAll
         ;;
     *)
         echo "Invalid Argument: $*"
