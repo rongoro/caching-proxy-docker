@@ -6,13 +6,17 @@ HASIMAGE=`docker images | grep $IMAGENAME`
 DOCKERLABEL="localhost.job_type=caching_http_proxy"
 PORT=8080
 
+WORKINGDIR=$(dirname $(realpath $0))
+
 function usage() {
     echo "Manage an cahing HTTP proxy and http_proxy environment variable"
     echo "$0 (start|stop|status|info|rebuild)"
 }
 
 function rebuild() {
-   docker build -t $IMAGENAME .
+    docker build -t $IMAGENAME --label "$DOCKERLABEL" $WORKINGDIR
+}
+
 function getImage() {
     docker images --filter "label=$DOCKERLABEL" --format "{{.ID}}"
 }
