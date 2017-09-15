@@ -41,7 +41,13 @@ function start() {
 
 function stop() {
     CID=`getContainer`
-    docker kill $CID
+    if [[ "$CID" == "" ]] ; then
+        # We didn't technically stop anything so return a non-zero
+        # value
+        return 2
+    fi
+    docker rm -f $CID
+}
 }
 
 if [[ $# -ne 1 ]] ; then
