@@ -43,7 +43,7 @@ function status() {
 function info() {
     CID=`getContainer`
     if [[ "$CID" == "" ]] ; then
-        echo "Not running."
+        >&2 echo "Not running."
         return 0
     fi
     PROXYIP=`docker inspect --format '{{ .NetworkSettings.IPAddress }}' ${CID}`
@@ -53,7 +53,7 @@ function info() {
 function start() {
     CID=`getContainer`
     if [[ "$CID" != "" ]] ; then
-        echo "Already running."
+        >&2 echo "Already running."
         info
         return 2
     fi
