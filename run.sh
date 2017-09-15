@@ -13,6 +13,8 @@ function usage() {
 
 function rebuild() {
    docker build -t $IMAGENAME .
+function getImage() {
+    docker images --filter "label=$DOCKERLABEL" --format "{{.ID}}"
 }
 
 function getContainer() {
@@ -34,6 +36,16 @@ function info() {
 }
 
 function start() {
+    CID=`getContainer`
+    if [[ "$CID" != "" ]] ; then
+        echo "Already running."
+        info
+        return 2
+    fi
+
+    if [[ `getImage` == "" ]] ; then
+        rebuild
+    fi
     CID=`docker run -d -p $PORT:$PORT -l "$DOCKERLABEL" $IMAGENAME`
     info
 }
