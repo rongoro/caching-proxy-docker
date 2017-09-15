@@ -10,7 +10,18 @@ WORKINGDIR=$(dirname $(realpath $0))
 
 function usage() {
     echo "Manage an cahing HTTP proxy and http_proxy environment variable"
-    echo "$0 (start|stop|status|info|rebuild)"
+    echo "$0 (start|stop|status|info|rebuild|clean-all|build-with-cache)"
+    echo
+    column -t -s "|" <<EOF
+    start | Start the cache
+    stop | Stop and cleanup the cache
+    status | Print the docker status for the cache container
+    info | Print the proxy info
+    rebuild | Rebuild the docker image
+    clean-all | Remove the docker images related to this tool
+    build-with-cache | Build the docker image using a cache provided by the tool (mostly for testing)
+EOF
+
 }
 
 function rebuild() {
